@@ -1,0 +1,19 @@
+{
+    "name": "mohajer/nagsh-download",
+    "description": "The wordpress plugin for download.nagsh.ir",
+    "type": "wordpress-plugin",
+    "license": "GPLv3",
+    "authors": [
+        {
+            "name": "Mohajer",
+            "email": "mohajerart96@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "NagshDL\\": "includes/"
+        }
+    }
+}
