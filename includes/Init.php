@@ -14,7 +14,8 @@ final class Init
     public static function get_services()
     {
         return [
-            Controllers\ACF\ACF::class
+            Controllers\ACF\ACF::class,
+            Controllers\Shortcodes::class,
         ];
     }
 

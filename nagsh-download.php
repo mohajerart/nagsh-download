@@ -40,15 +40,15 @@ if (file_exists(dirname(__FILE__).'/vendor/autoload.php')) {
 }
 
 // Define CONSTANTS
-define('PLUGIN_PATH', plugin_dir_path(__FILE__));
-define('PLUGIN_URL', plugin_dir_url(__FILE__));
-define('PLUGIN', plugin_basename(__FILE__));
+define('NAGSHDL_PLUGIN_PATH', plugin_dir_path(__FILE__));
+define('NAGSHDL_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('NAGSHDL_PLUGIN', plugin_basename(__FILE__));
 
 /*
  * The code that runs during plugin activation
  */
 function activate_nagsh_download_plugin() {
-    \NagshDL\Controllers\Activate::activate();
+    NagshDL\Controllers\Activate::activate();
 }
 register_activation_hook( __FILE__, 'activate_nagsh_download_plugin' );
 
@@ -56,6 +56,10 @@ register_activation_hook( __FILE__, 'activate_nagsh_download_plugin' );
  * The code that runs during plugin activation
  */
 function deactivate_nagsh_download_plugin() {
-    \NagshDL\Controllers\Deactivate::deactivate();
+    NagshDL\Controllers\Deactivate::deactivate();
 }
 register_activation_hook( __FILE__, 'deactivate_nagsh_download_plugin' );
+
+if ( class_exists( "NagshDL\Init" ) ) {
+    NagshDL\Init::register_services();
+}
