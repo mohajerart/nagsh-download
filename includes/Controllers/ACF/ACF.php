@@ -45,8 +45,9 @@ class ACF
             $acf_fields = get_posts( [
                 'post_parent'   => $acf_field_group_post->ID,
                 'post_type'     => 'acf-field',
-                'orderby' => 'title',
-                'order'   => 'DESC',
+                'orderby' => 'menu_order',
+                'order'   => 'ASC',
+                'nopaging' => true
             ] );
 
             $output = '<div class="nagshdl-acf-fields">';
@@ -54,9 +55,17 @@ class ACF
             $output .= '<caption><h3><strong>' . 'اطلاعات فایل' . '</strong></h3></caption>';
             foreach ( $acf_fields as $field ) {
                 $field_value = get_field( $field->post_excerpt );
+                $field_options = maybe_unserialize( $field->post_content );
 
-                if ( is_array( $field_value ) ) {
-                    $field_options = maybe_unserialize( $field->post_content );
+                if ( $field_options[ 'type' ] == 'text' ) {
+                    $field_output = $field_value;
+                }
+                else if ( $field_options[ 'type' ] == 'select' ) {
+                    $field_choices = $field_options[ 'choices' ];
+
+                    $field_output = $field_choices[ $field_value ];
+                }
+                else if ( $field_options[ 'type' ] == 'checkbox' ) {
                     $field_choices = $field_options[ 'choices' ];
 
                     $field_output = '';
@@ -65,9 +74,7 @@ class ACF
                         $field_output .= ( $i < ( sizeof( $field_value ) - 1 ) ? ', ' : '' );
                     }
                 }
-                else {
-                    $field_output = $field_value;
-                }
+
                 $output .= '<tr>';
                 $output .= '<th>' . $field->post_title . '</th><td>' . $field_output . '</td>';
                 $output .= '</tr>';
